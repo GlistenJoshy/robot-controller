@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#2196f3" />
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi-Mode Bot</title>
+  <link rel="stylesheet" href="multimode.css" />
+</head>
+<body>
+
+  <!-- Settings Icon -->
+  <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
+
+  <!-- Settings Dropdown -->
+  <div id="settingsDropdown" class="dropdown-content">
+  <div class="ip-config">
+    <label for="esp32Ip">ESP32 IP:</label><br>
+    <input type="text" id="esp32Ip" placeholder="e.g. 192.168.1.45"><br><br>
+
+    <label for="gestureIp">Gesture Server IP:</label><br>
+    <input type="text" id="gestureIp" placeholder="e.g. localhost:5000"><br><br>
+
+    <button onclick="saveIps()">Save</button>
+  </div>
+  <div id="ipError" style="color: #ff4444; margin-top: 8px; font-size: 0.95em;"></div>
+</div>
+
+
+  <!-- Home Page -->
+  <div id="page1">
+    <h1>The Multi-Mode Bot</h1>
+    <button onclick="goToModes()">Click to Get Started</button>
+  </div>
+
+  <!-- Mode Selection Page -->
+  <div id="page2" class="hidden">
+    <h2>Select a Mode</h2>
+    <button onclick="goToTouch()">Touch Mode</button>
+    <button onclick="goToTilt()">Tilt Mode</button>
+    <button onclick="goToGesture()">Gesture Mode</button>
+    <div class="nav-buttons">
+      <button onclick="goToHome()">🏠 Go to Home Page</button>
+    </div>
+  </div>
+
+  <!-- Touch Mode Page -->
+  <div id="touchMode" class="hidden">
+    <h2>Touch Control</h2>
+    <div class="touch-controls">
+      <button class="arrow-btn">⬆️</button>
+      <div>
+        <button class="arrow-btn">⬅️</button>
+        <button class="arrow-btn">➡️</button>
+      </div>
+      <button class="arrow-btn">⬇️</button>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="goToModes()">⬅ Back</button>
+      <button onclick="goToHome()">🏠 Home Page</button>
+    </div>
+  </div>
+
+  <!-- Tilt Mode Page -->
+  <div id="tiltMode" class="hidden">
+    <h2>Tilt Control</h2>
+    <p>Hold your phone and tilt to steer</p>
+    <div class="tilt-buttons">
+      <button class="circle-btn gas">⏫ ACCELERATE</button>
+      <button class="circle-btn brake">⏬ REVERSE</button>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="goToModes()">⬅ Back</button>
+      <button onclick="goToHome()">🏠 Home Page</button>
+    </div>
+  </div>
+
+  <!-- Gesture Mode Page -->
+  <div id="gestureMode" class="hidden">
+    <h2>Gesture Control</h2>
+    <canvas id="gestureCanvas" width="640" height="480"></canvas>
+    <p id="gestureStatus">Waiting for gesture...</p>
+    <div class="nav-buttons">
+      <button id="gestureBackBtn">⬅ Back</button>
+      <button id="gestureHomeBtn">🏠 Home Page</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="multimode.js"></script>
+
+  <!-- MediaPipe Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log("✅ Service Worker registered"))
+      .catch(err => console.error("❌ SW registration failed", err));
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "Multi-Mode Bot Controller",
+  "short_name": "Bot Control",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "Control bot via Touch, Tilt, or Gesture",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#2196f3"
+}
