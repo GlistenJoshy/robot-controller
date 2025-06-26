@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Motion Sensor Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <h2>Accelerometer Test</h2>
+  <p id="permissionStatus">Checking permission...</p>
+  <p>X: <span id="x">-</span></p>
+  <p>Y: <span id="y">-</span></p>
+  <p>Z: <span id="z">-</span></p>
+
+  <script>
+    function handleMotion(event) {
+      document.getElementById("x").textContent = event.accelerationIncludingGravity.x.toFixed(2);
+      document.getElementById("y").textContent = event.accelerationIncludingGravity.y.toFixed(2);
+      document.getElementById("z").textContent = event.accelerationIncludingGravity.z.toFixed(2);
+    }
+
+    function requestPermissionIfNeeded() {
+      const status = document.getElementById("permissionStatus");
+
+      if (typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function") {
+        DeviceMotionEvent.requestPermission()
+          .then(response => {
+            if (response === "granted") {
+              window.addEventListener("devicemotion", handleMotion);
+              status.textContent = "✅ Permission granted!";
+            } else {
+              status.textContent = "❌ Permission denied.";
+            }
+          })
+          .catch(err => {
+            status.textContent = "❌ Error: " + err;
+          });
+      } else {
+        status.textContent = "✅ No permission required. Listening...";
+        window.addEventListener("devicemotion", handleMotion);
+      }
+    }
+
+    // Request on tap (required by iOS/Android browsers)
+    document.body.addEventListener("click", requestPermissionIfNeeded);
+  </script>
+</body>
+</html>
